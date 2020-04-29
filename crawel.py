@@ -9,8 +9,14 @@ def main():
         html = requests.get(url)
         soup = bs(html.text,'lxml')
         href = [i['href'] for i in soup.select('.TAB_CONTENT a')]
+        json_data = '['
         for chruch_url in href:
-            get_chruch_content('https://taipei.catholic.org.tw/'+chruch_url)
+            json_data += get_chruch_content('https://taipei.catholic.org.tw/'+chruch_url)+','
+        json_data = json_data.strip(',')
+        json_data += ']'
+    json_str = json.dumps(json_data)
+    with open('data.json','w+') as file:
+        file.write(json_str)
         
 def get_chruch_content(url):
     temp = 'https://taipei.catholic.org.tw'
@@ -46,11 +52,7 @@ def get_chruch_content(url):
         'chruch_weekend':chruch_weekend,
         'chruch_box':chruch_box,
     }
-
-    json_str = json.dumps(data)
-    with open('data.json','w+') as file:
-        file.write(json_str)
-    
+    return json.dumps(data)
 
 
 
