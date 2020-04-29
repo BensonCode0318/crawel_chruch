@@ -4,17 +4,16 @@ import json,requests
 
 
 def main():
+    arr = []
     for i in range(1,13):
         url = 'https://taipei.catholic.org.tw/taipei/chi/load_church/' + str(i)
         html = requests.get(url)
         soup = bs(html.text,'lxml')
         href = [i['href'] for i in soup.select('.TAB_CONTENT a')]
-        json_data = '['
         for chruch_url in href:
-            json_data += get_chruch_content('https://taipei.catholic.org.tw/'+chruch_url)+','
-        json_data = json_data.strip(',')
-        json_data += ']'
-    json_str = json.dumps(json_data)
+            arr.append(get_chruch_content('https://taipei.catholic.org.tw/'+chruch_url))
+    json_str = json.dumps(arr)
+    print(json_str)
     with open('data.json','w+') as file:
         file.write(json_str)
         
@@ -52,9 +51,9 @@ def get_chruch_content(url):
         'chruch_weekend':chruch_weekend,
         'chruch_box':chruch_box,
     }
-    return json.dumps(data)
+    return data
 
 
 
 if __name__ == "__main__":
-    main()
+    main() 
