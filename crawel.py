@@ -21,12 +21,12 @@ def get_chruch_content(url):
     temp = 'https://taipei.catholic.org.tw'
     html = requests.get(url)
     soup = bs(html.text,'lxml')
-    title = soup.select('.PAGE_TI')[0].text.replace(' ','').split()
-    title = ''.join(title)
+    title = soup.select('.PAGE_TI')[0].text.replace(' ','').split() 
+    title = ''.join(title) #remove title \n and space
     deanery = soup.select('.PATH :nth-child(3)')[0].text
     img = temp+soup.select('#img1')[0]['src']
     fa_img = temp+soup.select('.FATHER_IMG :nth-child(1)')[0]['src']
-    fa_name = soup.select('.FATHER_TEXT :nth-child(2)')[0].text
+    secretary = soup.select('.FATHER_TEXT :nth-child(2)')[0].text
     fa_phone = soup.select('#s1')[0].text
     fa_tax = soup.select('#s2')[0].text
     fa_address = soup.select('#s3')[0].text
@@ -40,13 +40,13 @@ def get_chruch_content(url):
         'title':title,
         'deanery':deanery,
         'img':img,
-        'fa_img':fa_img,
-        'fa_name':fa_name,
-        'fa_phone':fa_phone,
-        'fa_tax':fa_tax,
-        'fa_address':fa_address,
-        'fa_email':fa_email,
-        'fa_url':fa_url,
+        'secretary_img':fa_img,
+        'secretary':secretary,
+        'phone1':fa_phone,
+        'tax':fa_tax,
+        'address':fa_address,
+        'email':fa_email,
+        'web':fa_url,
         'chruch_weekdays':chruch_weekdays,
         'chruch_weekend':chruch_weekend,
         'chruch_box':chruch_box,
